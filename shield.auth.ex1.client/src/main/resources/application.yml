@@ -1,0 +1,52 @@
+server:
+  port: 9999
+  context-path: /client
+logging:
+  level:
+    org.springframework.security: DEBUG
+endpoints:
+  trace:
+    sensitive: false
+    
+#################################################################################
+  
+security:
+  basic:
+    enabled: false
+  oauth2:
+    client:
+      client-id: acme2
+      client-secret: acmesecret2
+      access-token-uri: http://localhost:8080/oauth/token
+      user-authorization-uri: http://localhost:8080/oauth/authorize
+    resource:
+      user-info-uri: http://localhost:8080/me
+#      
+#  gaas:
+#    client:
+#      client-id: acme2
+#      client-secret: acmesecret2
+#      access-token-uri: http://localhost:8080/oauth/token
+#      user-authorization-uri: http://localhost:8080/oauth/authorize
+#    resource:
+#      user-info-uri: http://localhost:8080/me
+    
+#oauth2:
+#  client:
+#    clientId: acme2
+#    clientSecret: acmesecret2
+#    accessTokenUri: http://localhost:8080/oauth/token
+#    userAuthorizationUri: http://localhost:8080/oauth/authorize
+#resource:
+#    userInfoUri: http://localhost:8080/me
+
+
+#security:
+# oauth2:
+#   client:
+#     client-id: acme
+#     client-secret: acmesecret
+#     access-token-uri: https://server-oauth-teste.herokuapp.com/oauth/token
+#     user-authorization-uri: https://server-oauth-teste.herokuapp.com/oauth/authorize
+#   resource:
+#     user-info-uri: https://server-oauth-teste.herokuapp.com/me
