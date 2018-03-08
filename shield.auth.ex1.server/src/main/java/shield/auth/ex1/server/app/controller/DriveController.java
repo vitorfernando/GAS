@@ -73,17 +73,16 @@ public class DriveController {
     }
 
      @PostMapping("drive/upload")
-    public String handleFileUpload(File file,
-            RedirectAttributes redirectAttributes, @RequestHeader(value = "Authorization", defaultValue = "empty") String tokenLocal) {
+    public String handleFileUpload(@RequestHeader(value = "Authorization", defaultValue = "empty") String tokenLocal, byte[] file) {
         String tokenGoogle = validToken.validToken(tokenLocal);
         if (tokenGoogle != null) {
             GoogleTemplate google = new GoogleTemplate(tokenGoogle);
-            Resource resource = new FileSystemResource(file);  // any Resource implementation can be used
-            DriveFile metadata = DriveFile.builder() // use this builder to set metadata
-                    .setTitle(file.getName())
-                    .build();
-            UploadParameters parameters = new UploadParameters();  // call setters to modify upload parameters
-            DriveFile fileDrive = google.driveOperations().upload(resource, metadata, parameters);
+//            Resource resource = new FileSystemResource(file);  // any Resource implementation can be used
+//            DriveFile metadata = DriveFile.builder() // use this builder to set metadata
+//                    .setTitle(file.getName())
+//                    .build();
+//            UploadParameters parameters = new UploadParameters();  // call setters to modify upload parameters
+//            DriveFile fileDrive = google.driveOperations().upload(resource, metadata, parameters);
 
         }
         return "redirect:/";

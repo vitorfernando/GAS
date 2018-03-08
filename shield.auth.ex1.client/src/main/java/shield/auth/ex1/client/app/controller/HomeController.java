@@ -1,5 +1,6 @@
 package shield.auth.ex1.client.app.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
 import shield.auth.ex1.client.app.conf.LogRest;
+
 import shield.auth.ex1.client.app.models.FileDetails;
 
 @RestController
@@ -44,8 +45,8 @@ public class HomeController {
         //request to the server for a REST resource
         return templateTeste.getForObject("http://localhost:8080/drive/listFull", Object.class);
     }
-    
-        @RequestMapping("/")
+
+    @RequestMapping("/")
     public ModelAndView index(OAuth2Authentication user) {
         String theUrl = "http://localhost:8080/drive/list";
         ModelAndView modelAndView = new ModelAndView("/index");
@@ -63,20 +64,30 @@ public class HomeController {
         return null;
     }
 
-
     @RequestMapping("/upload")
     public Object upload(@RequestParam("file") MultipartFile file) {
-        
-        HttpEntity<MultipartFile> request = new HttpEntity<>(file);
+        byte[] bytes = null;
+        try {
+            // Get the file
+            bytes = file.getBytes();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+//        HttpEntity<MultipartFile> request = new HttpEntity<>(file);
 //        Object reponse = templateTeste.exchange("http://localhost:8080/drive/upload", HttpMethod.POST, request, String.class);
-       String response = templateTeste.postForObject("http://localhost:8080/drive/upload", request, String.class);
+        String response = templateTeste.postForObject("http://localhost:8080/drive/upload", bytes, String.class);
+
         return "redirect:/";
     }
 
     @RequestMapping("/testesemtoken")
     public Object teste() {
         RestTemplate temp = new RestTemplate();
-        return temp.getForObject("http://localhost:8080/drive/list", Object.class);
+
+        return temp.getForObject("http://localhost:8080/drive/list", Object.class
+        );
 
     }
 
@@ -109,8 +120,10 @@ public class HomeController {
             HttpHeaders headers = createHttpHeaders(user);
             HttpEntity<String> entity = new HttpEntity<String>(headers);
 
-            ResponseEntity<Object> response = restTemplate.exchange(theUrl, HttpMethod.GET, entity, Object.class);
-            System.out.println("Result - status (" + response.getStatusCode() + ") has body: " + response.hasBody());
+            ResponseEntity<Object> response = restTemplate.exchange(theUrl, HttpMethod.GET, entity, Object.class
+            );
+            System.out.println(
+                    "Result - status (" + response.getStatusCode() + ") has body: " + response.hasBody());
             return response.getBody();
         } catch (Exception eek) {
             System.out.println("** Exception: " + eek.getMessage());
