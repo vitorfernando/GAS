@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import shield.auth.ex1.client.app.conf.LogRest;
 
 import shield.auth.ex1.client.app.models.FileDetails;
+import shield.auth.ex1.client.app.models.FileToUpload;
 
 @RestController
 public class HomeController {
@@ -67,9 +68,18 @@ public class HomeController {
     @RequestMapping("/upload")
     public Object upload(@RequestParam("file") MultipartFile file) {
         byte[] bytes = null;
+        FileToUpload uploadFile = new FileToUpload();
         try {
+            //Gets the file name.
+            String originalFileName = file.getOriginalFilename();
+            //Separetes the file name in an array of string,
+            //getting the name and sufix.
+            String[] fileParts = originalFileName.split("\\.");
+            
+            uploadFile.setFileName(fileParts[0]);
+            uploadFile.setFileSufix(fileParts[1]);
             // Get the file
-            bytes = file.getBytes();
+            uploadFile.setFileInByteArray(file.getBytes());
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -77,7 +87,7 @@ public class HomeController {
 
 //        HttpEntity<MultipartFile> request = new HttpEntity<>(file);
 //        Object reponse = templateTeste.exchange("http://localhost:8080/drive/upload", HttpMethod.POST, request, String.class);
-        String response = templateTeste.postForObject("http://localhost:8080/drive/upload", bytes, String.class);
+        String response = templateTeste.postForObject("http://localhost:8080/drive/upload", uploadFile, String.class);
 
         return "redirect:/";
     }
