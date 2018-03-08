@@ -34,6 +34,12 @@ public class HomeController {
         return templateTeste.getForObject("http://localhost:8080/drive/list", Object.class);
     }
 
+    @RequestMapping("/listFull")
+    public Object listFull() {
+        //request to the server for a REST resource
+        return templateTeste.getForObject("http://localhost:8080/drive/listFull", Object.class);
+    }
+
     @RequestMapping("/testesemtoken")
     public Object teste() {
         RestTemplate temp = new RestTemplate();

@@ -55,7 +55,6 @@ public class HomeController {
     @RequestMapping(value = "/drive/list", method = RequestMethod.GET)
     public Object list(@RequestHeader(value = "Authorization", defaultValue = "empty") String tokenLocal) {
         String tokenGoogle = validToken(tokenLocal);
-        //aaaa
         if (tokenGoogle != null) {
             GoogleTemplate google = new GoogleTemplate(tokenGoogle);
             DriveFilesPage files = google.driveOperations().getFiles("root", null);
@@ -83,4 +82,17 @@ public class HomeController {
         }
         return new Exception("Erro ao extrair token.");
     }
+
+    @RequestMapping(value = "/drive/listFull", method = RequestMethod.GET)
+    public Object listFull(@RequestHeader(value = "Authorization", defaultValue = "empty") String tokenLocal) {
+        String tokenGoogle = validToken(tokenLocal);
+        if (tokenGoogle != null) {
+            GoogleTemplate google = new GoogleTemplate(tokenGoogle);
+            DriveFilesPage files = google.driveOperations().getFiles("root", null);
+
+            return files.getItems();
+        }
+        return new Exception("Erro ao extrair token.");
+    }
+
 }
