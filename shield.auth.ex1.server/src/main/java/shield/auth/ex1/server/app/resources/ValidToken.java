@@ -9,16 +9,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author renan-baisso
  */
+@Component
 public class ValidToken {
 
     @Autowired
     TokenStore tokenStore;
 
+   //Extracts local token from request header and validates the token.
+    //Returns the external token from the database.
     public String validToken(String tokenLocal) {
         String[] parts = tokenLocal.split(" ");
         if (!tokenLocal.equals("empty")) {
