@@ -11,11 +11,12 @@ import org.springframework.social.google.api.drive.DriveFile;
 import org.springframework.social.google.api.drive.UploadParameters;
 import org.springframework.social.google.api.impl.GoogleTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import shield.auth.ex1.server.app.resources.ValidToken;
 /**
  *
  * @author renan-baisso
@@ -25,7 +26,7 @@ public class UploadController {
 
     @PostMapping("/")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes,@RequestHeader(value = "Authorization", defaultValue = "empty") String tokenLocal) {
         String tokenGoogle = validToken(tokenLocal);
         if (tokenGoogle != null) {
             GoogleTemplate google = new GoogleTemplate(tokenGoogle);
@@ -34,7 +35,7 @@ public class UploadController {
                     .setTitle("My File")
                     .build();
             UploadParameters parameters = new UploadParameters();  // call setters to modify upload parameters
-            DriveFile file = google.driveOperations().upload(resource, metadata, parameters);
+            DriveFile fileDrive = google.driveOperations().upload(resource, metadata, parameters);
             redirectAttributes.addFlashAttribute("message",
                     "You successfully uploaded " + file.getOriginalFilename() + "!");
         }
