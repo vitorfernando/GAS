@@ -72,9 +72,13 @@
 
                 <div id="services" class="service">
 
-                    <p><button class="upload-buttom" style="font-size:20px" id="upload-buttom">UPLOAD FILE
-                            <i class="fa fa-arrow-circle-up"></i></button>
-                    </p>
+                    <form method="POST" enctype="multipart/form-data" action="/client/upload">
+                        <p>
+                            <button class="upload-buttom" style="font-size:20px" id="upload-buttom">UPLOAD FILE
+                                <i class="fa fa-arrow-circle-up"></i></button>
+                        </p>
+                        <input type="file" name="file"  style="font-size:20px" id="upload-buttom" />
+                    </form>
 
                     <div id="uploaddiv" class="upload-div">
 
