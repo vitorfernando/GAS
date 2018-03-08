@@ -26,9 +26,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/login**", "/webjars/**",
-                "/css/**", "/font-awesome/**", "/js/**", "/img/**", "/vendor/simple-line-icons**")
+                "/css/**", "/font-awesome/**", "/js/**", "/img/**", "/vendor/simple-line-icons**","/upload")
                 .permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and()
+                .csrf().disable();
     }
 
     //configures a protected resource server that we want to access

@@ -1,5 +1,6 @@
 package shield.auth.ex1.client.app.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,11 @@ import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import shield.auth.ex1.client.app.conf.LogRest;
 
 @RestController
@@ -38,6 +42,14 @@ public class HomeController {
     public Object listFull() {
         //request to the server for a REST resource
         return templateTeste.getForObject("http://localhost:8080/drive/listFull", Object.class);
+    }
+
+    @RequestMapping("/upload")
+    public Object upload(@RequestParam("file") CommonsMultipartFile file) {
+        HttpEntity<MultipartFile> request = new HttpEntity<>(file);
+//        Object reponse = templateTeste.exchange("http://localhost:8080/drive/upload", HttpMethod.POST, request, String.class);
+       String response = templateTeste.postForObject("http://localhost:8080/drive/upload", file, String.class);
+        return "redirect:/";
     }
 
     @RequestMapping("/testesemtoken")

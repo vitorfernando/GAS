@@ -10,12 +10,13 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
  * @author vitor-s-silva
  */
-@Controller
+@RestController
 public class TokenController {
     //Obtains the token for an authenticated user.
     @RequestMapping({"/user", "/me"})
