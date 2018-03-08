@@ -1,6 +1,5 @@
 package shield.auth.ex1.client.app.controller;
 
-import static java.lang.Compiler.command;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+
 import shield.auth.ex1.client.app.conf.LogRest;
+import shield.auth.ex1.client.app.models.FileDetails;
 
 @RestController
 public class HomeController {
@@ -42,6 +44,25 @@ public class HomeController {
         //request to the server for a REST resource
         return templateTeste.getForObject("http://localhost:8080/drive/listFull", Object.class);
     }
+    
+        @RequestMapping("/")
+    public ModelAndView index(OAuth2Authentication user) {
+        String theUrl = "http://localhost:8080/drive/list";
+        ModelAndView modelAndView = new ModelAndView("/index");
+
+        try {
+            ResponseEntity<FileDetails[]> response = templateTeste.getForEntity(theUrl, FileDetails[].class);
+            System.out.println("Result - status (" + response.getStatusCode() + ") has body: " + response.hasBody());
+            modelAndView.addObject("files", response.getBody());
+
+            return modelAndView;
+        } catch (Exception eek) {
+            System.out.println("** Exception: " + eek.getMessage());
+        }
+
+        return null;
+    }
+
 
     @RequestMapping("/upload")
     public Object upload(@RequestParam("file") MultipartFile file) {

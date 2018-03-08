@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <title>Logged Area</title>
+        <meta name="description" content=""/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+        <base href="/" />
+        <!--bootstrap core-->
+        <link rel="stylesheet" type="text/css"
+              href="client/webjars/bootstrap/css/bootstrap.min.css" />
+
+        <!--import javascript-->
+        <script type="text/javascript" src="client/webjars/jquery/jquery.min.js"></script>
+        <script type="text/javascript"
+        src="client/webjars/bootstrap/js/bootstrap.min.js"></script>
+        <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
+
+        <!-- Custom Fonts -->
+        <link href="client/webjars/font-awesome/css/font-awesome.min.css" 
+              rel="stylesheet" type="text/css"/>
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css"/>
+
+        <!-- Custom CSS -->
+        <link href="client/css/stylish-portfolio.min.css" rel="stylesheet"/>
+        <link href="client/vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet"/>
+
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/>
+        <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"/>
+
+
+    </head>
+    <body>
+        <div class=" container">
+            <div id="profile-header" class="card shadow">
+                <div class="cover">
+                    <img class="" src="client/img/user-profile-bg.jpg" alt="user background"/>                    
+                </div>
+
+                <div>
+                    <img src="client/img/galfalf-icon.png" class="shadow card-profile-image "/>
+                </div>
+                <div>
+                    <p class="cover-title">Welcome to Google Drive Utility</p>
+                </div>
+
+
+            </div>
+
+            <div class="section">
+                <div id="user-details" class="profile shadow">
+                    <h2>Profile</h2>
+                    <div>
+                        <p>Nome: <span id="nome"></span></p>
+                    </div>
+                    <div>
+                        <p>Email:<span id="email" class=""></span></p>  
+                    </div>
+                    <div>
+                        <p>Telefone: <span id="telefone"></span></p>
+                    </div>
+                    <div>
+                        <p>Sexo: <span id="sexo"></span></p>
+                    </div>
+                    <div>
+                        <p>Aniversario: <span id="bday"></span></p>
+                    </div>
+                </div>
+
+                <div id="services" class="service">
+
+                    <p><button class="upload-buttom" style="font-size:20px" id="upload-buttom">UPLOAD FILE
+                            <i class="fa fa-arrow-circle-up"></i></button>
+                    </p>
+
+                    <div id="uploaddiv" class="upload-div">
+
+
+
+                        <div class="container content-table">
+                            <table id="tabela" class="table  table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Tipo</th>
+                                        <th>Download / Export</th>
+                                    </tr>    
+                                </thead>
+
+                                <tbody class="table table-hover">
+                                <th:block th:each="file : ${files}">
+                                    <tr>
+                                        <td th:text="${file.fileName}">...</td>
+                                        <td>
+                                    <th:block th:switch="${file.fileType}">
+                                        <div th:case="'application/pdf'">
+                                            <label>PDF</label>
+                                        </div>
+                                        <div th:case="'application/vnd.google-apps.document'">
+                                            <label>Documento</label>
+                                        </div>
+                                        <div th:case="'text/plain'">
+                                            <label>Documento de Texto</label>
+                                        </div>
+                                        <div th:case="'application/vnd.google-apps.folder'">
+                                            <label>Pasta</label>
+                                        </div>
+                                        <div th:case="'image/jpeg'">
+                                            <label>Imagem</label>
+                                        </div>
+                                        <div th:case="*">
+                                            <label th:text="${file.fileType}"></label>
+                                        </div>
+                                    </th:block>
+                                    </td>
+                                    <td>
+                                        <a title="Baixar" th:if="${file.exportedLinks == null}"  
+                                           class="btn btn-primary" th:href="${file.downloadUrl}"><i class="fa fa-download"></i></a>
+                                        <a title="Exportar para PDF" th:if="${file.exportedLinks != null}"  
+                                           class="btn btn-danger" th:href="${file.exportedLinks.get('application/pdf')}"><i class="fa fa-file-pdf-o"></i></a>
+                                        <a title="Exportar para ZIP" th:if="${file.exportedLinks != null}"  
+                                           class="btn btn-secondary" th:href="${file.exportedLinks.get('application/zip')}"><i class="fa fa-file-archive-o"></i></a>
+                                        <a title="Exportar para Word" th:if="${file.exportedLinks != null}"  
+                                           class="btn btn-primary" th:href="${file.exportedLinks.get('application/vnd.openxmlformats-officedocument.wordprocessingml.document')}"><i class="fa fa-file-word-o"></i></a>
+                                        <a title="Exportar para TXT" th:if="${file.exportedLinks != null}"  
+                                           class="btn btn-dark" th:href="${file.exportedLinks.get('text/plain')}"><i class="fa fa-file-o"></i></a>
+                                    </td>
+                                    </tr>
+                                </th:block>
+                                </tbody>
+
+                            </table>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer >
+                <div id="contact" class="contact">
+                    <div class="text-align-left">
+                        <!--imagem logo openlabs-->  
+                        <img src="client/img/openlabs-logo.png" class="img-squared"/>
+                    </div>
+                    <div class="text-align-right">
+                        <p class="text-muted small mb-0">Copyright &copy; 2018 <a href="#">Gandalf Authentication Server</a> - Open Labs S.A.</p>
+                        <p class="text-muted small mb-0">R. Amauri, 305 - Jardim Europa, São Paulo - SP, 01448-901</p>
+
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+
+
+
+        <!-- Custom scripts for this template -->
+        <script src="client/js/stylish-portfolio.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#tabela').DataTable({
+                    "pageLength": 5,
+                    "bLengthChange": false,
+                    "columnDefs": [{
+                            "targets": 2,
+                            "orderable": false
+                        }]
+                });
+
+                $('.dataTables_filter').addClass('pull-left');
+
+            });
+
+
+        </script>
+
+    </body>
+</html>
