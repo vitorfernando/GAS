@@ -41,7 +41,7 @@
                 <div>
                     <p class="cover-title">Welcome to Google Drive Utility</p>
                 </div>
-                
+
 
             </div>
 
@@ -67,8 +67,15 @@
 
                 <div id="services" class="service">
                     <div id="uploaddiv" class=" uploaddiv shadow">
-                        <p><button class="btn" style="font-size:24px" id="upload-buttom">Upload Service 
-                                <i class="fa fa-arrow-circle-up"></i></button></p>
+                        <form method="POST" enctype="multipart/form-data" action="/client/upload">
+                            <table>
+                                <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+                                <tr><td></td><td><p><button class="btn" style="font-size:24px" id="upload-buttom" type="submit" value="Upload">
+                                                <i class="fa fa-arrow-circle-up"></i></button></p></td></tr>
+                            </table>
+                        </form>
+
+
                     </div>
 
                     <div id="downloaddiv" class=" downloaddiv shadow">

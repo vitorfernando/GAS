@@ -1,5 +1,6 @@
 package shield.auth.ex1.client.app.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,14 @@ import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import shield.auth.ex1.client.app.conf.LogRest;
+import shield.auth.ex1.client.app.models.FileDetails;
 
 @RestController
 public class HomeController {
@@ -38,6 +44,33 @@ public class HomeController {
     public Object listFull() {
         //request to the server for a REST resource
         return templateTeste.getForObject("http://localhost:8080/drive/listFull", Object.class);
+    }
+    
+        @RequestMapping("/")
+    public ModelAndView index(OAuth2Authentication user) {
+        String theUrl = "http://localhost:8080/drive/list";
+        ModelAndView modelAndView = new ModelAndView("/index");
+
+        try {
+            ResponseEntity<FileDetails[]> response = templateTeste.getForEntity(theUrl, FileDetails[].class);
+            System.out.println("Result - status (" + response.getStatusCode() + ") has body: " + response.hasBody());
+            modelAndView.addObject("files", response.getBody());
+
+            return modelAndView;
+        } catch (Exception eek) {
+            System.out.println("** Exception: " + eek.getMessage());
+        }
+
+        return null;
+    }
+
+
+    @RequestMapping("/upload")
+    public Object upload(@RequestParam("file") CommonsMultipartFile file) {
+        HttpEntity<MultipartFile> request = new HttpEntity<>(file);
+//        Object reponse = templateTeste.exchange("http://localhost:8080/drive/upload", HttpMethod.POST, request, String.class);
+       String response = templateTeste.postForObject("http://localhost:8080/drive/upload", file, String.class);
+        return "redirect:/";
     }
 
     @RequestMapping("/testesemtoken")

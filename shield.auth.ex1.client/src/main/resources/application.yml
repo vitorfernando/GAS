@@ -8,6 +8,11 @@ endpoints:
   trace:
     sensitive: false
     
+spring:
+    thymeleaf:
+        cache: false
+  
+    
 #################################################################################
   
 security:
