@@ -1,6 +1,6 @@
 package shield.auth.ex1.client.app.controller;
 
-import java.io.File;
+import static java.lang.Compiler.command;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import shield.auth.ex1.client.app.conf.LogRest;
 
 @RestController
@@ -45,10 +44,11 @@ public class HomeController {
     }
 
     @RequestMapping("/upload")
-    public Object upload(@RequestParam("file") CommonsMultipartFile file) {
+    public Object upload(@RequestParam("file") MultipartFile file) {
+        
         HttpEntity<MultipartFile> request = new HttpEntity<>(file);
 //        Object reponse = templateTeste.exchange("http://localhost:8080/drive/upload", HttpMethod.POST, request, String.class);
-       String response = templateTeste.postForObject("http://localhost:8080/drive/upload", file, String.class);
+       String response = templateTeste.postForObject("http://localhost:8080/drive/upload", request, String.class);
         return "redirect:/";
     }
 
