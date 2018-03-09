@@ -41,7 +41,7 @@
                 </div>
 
                 <div>
-                    <img src="client/img/galfalf-icon.png" class="shadow card-profile-image "/>
+                    <img th:src="${user.Img}" class="shadow card-profile-image "/>
                 </div>
                 <div>
                     <p class="cover-title">Welcome to Google Drive Utility</p>
@@ -54,7 +54,7 @@
                 <div id="user-details" class="profile shadow">
                     <h2>Profile</h2>
                     <div>
-                        <p>Nome: <span id="nome"></span></p>
+                        <p>Nome: <span th:text="${user.Nome}" id="nome"></span></p>
                     </div>
                     <div>
                         <p>Email:<span id="email" class=""></span></p>  
@@ -63,10 +63,10 @@
                         <p>Telefone: <span id="telefone"></span></p>
                     </div>
                     <div>
-                        <p>Sexo: <span id="sexo"></span></p>
+                        <p>Gênero: <span th:text="${user.Genero}" id="sexo"></span></p>
                     </div>
                     <div>
-                        <p>Aniversario: <span id="bday"></span></p>
+                        <p>Aniversario: <span th:text="${user.Niver}" id="bday"></span></p>
                     </div>
                 </div>
 
@@ -75,7 +75,7 @@
                     <div class="div-float-right">
                         <form method="POST" enctype="multipart/form-data" action="/client/upload">
                             <div class="input-group">
-                                <input class="btn btn-primary" type="file" name="file"  />
+                                <input class="btn upload-buttom" type="file" name="file" id="upload-buttom" />
                                 <div class="input-group-btn">
                                     <button class="upload-buttom" style="font-size:20px" id="upload-buttom">UPLOAD FILE
                                     <i class="fa fa-arrow-circle-up"></i></button>
@@ -127,15 +127,25 @@
                                     </td>
                                     <td>
                                         <a title="Baixar" th:if="${file.exportedLinks == null}"  
-                                           class="btn btn-primary" th:href="${file.downloadUrl}"><i class="fa fa-download"></i></a>
+                                           class="btn btn-primary" th:href="${file.downloadUrl}">
+                                            <i class="fa fa-download"></i>
+                                        </a>
                                         <a title="Exportar para PDF" th:if="${file.exportedLinks != null}"  
-                                           class="btn btn-danger" th:href="${file.exportedLinks.get('application/pdf')}"><i class="fa fa-file-pdf-o"></i></a>
+                                           class="btn btn-danger" th:href="${file.exportedLinks.get('application/pdf')}">
+                                            <i class="fa fa-file-pdf-o"></i>
+                                        </a>
                                         <a title="Exportar para ZIP" th:if="${file.exportedLinks != null}"  
-                                           class="btn btn-secondary" th:href="${file.exportedLinks.get('application/zip')}"><i class="fa fa-file-archive-o"></i></a>
+                                           class="btn btn-secondary" th:href="${file.exportedLinks.get('application/zip')}">
+                                            <i class="fa fa-file-archive-o"></i>
+                                        </a>
                                         <a title="Exportar para Word" th:if="${file.exportedLinks != null}"  
-                                           class="btn btn-primary" th:href="${file.exportedLinks.get('application/vnd.openxmlformats-officedocument.wordprocessingml.document')}"><i class="fa fa-file-word-o"></i></a>
+                                           class="btn btn-primary" th:href="${file.exportedLinks.get('application/vnd.openxmlformats-officedocument.wordprocessingml.document')}">
+                                            <i class="fa fa-file-word-o"></i>
+                                        </a>
                                         <a title="Exportar para TXT" th:if="${file.exportedLinks != null}"  
-                                           class="btn btn-dark" th:href="${file.exportedLinks.get('text/plain')}"><i class="fa fa-file-o"></i></a>
+                                           class="btn btn-dark" th:href="${file.exportedLinks.get('text/plain')}">
+                                            <i class="fa fa-file-o"></i>
+                                        </a>
                                     </td>
                                     </tr>
                                 </th:block>

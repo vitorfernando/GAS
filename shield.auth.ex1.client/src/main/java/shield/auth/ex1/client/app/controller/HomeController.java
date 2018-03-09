@@ -26,6 +26,7 @@ import shield.auth.ex1.client.app.conf.LogRest;
 
 import shield.auth.ex1.client.app.models.FileDetails;
 import shield.auth.ex1.client.app.models.FileToUpload;
+import shield.auth.ex1.client.app.models.UserDetails;
 
 @RestController
 public class HomeController {
@@ -49,13 +50,17 @@ public class HomeController {
 
     @RequestMapping("/")
     public ModelAndView index(OAuth2Authentication user) {
-        String theUrl = "http://localhost:8080/drive/list";
+        String fileUrl = "http://localhost:8080/drive/list";
+        String profileUrl = "http://localhost:8080/usuario";
         ModelAndView modelAndView = new ModelAndView("/index");
 
         try {
-            ResponseEntity<FileDetails[]> response = templateTeste.getForEntity(theUrl, FileDetails[].class);
+            ResponseEntity<FileDetails[]> response = templateTeste.getForEntity(fileUrl, FileDetails[].class);
+            ResponseEntity<UserDetails> rep = templateTeste.getForEntity(profileUrl, UserDetails.class);
             System.out.println("Result - status (" + response.getStatusCode() + ") has body: " + response.hasBody());
+            System.out.println("Result - status (" + rep.getStatusCode() + ") has body: " + rep.hasBody());
             modelAndView.addObject("files", response.getBody());
+            modelAndView.addObject("user",rep.getBody());
 
             return modelAndView;
         } catch (Exception eek) {
@@ -67,7 +72,6 @@ public class HomeController {
 
     @RequestMapping("/upload")
     public Object upload(@RequestParam("file") MultipartFile file) {
-        byte[] bytes = null;
         FileToUpload uploadFile = new FileToUpload();
         try {
             //Gets the file name.
@@ -85,11 +89,9 @@ public class HomeController {
             e.printStackTrace();
         }
 
-//        HttpEntity<MultipartFile> request = new HttpEntity<>(file);
-//        Object reponse = templateTeste.exchange("http://localhost:8080/drive/upload", HttpMethod.POST, request, String.class);
         String response = templateTeste.postForObject("http://localhost:8080/drive/upload", uploadFile, String.class);
 
-        return "redirect:/";
+        return "/";
     }
 
     @RequestMapping("/testesemtoken")

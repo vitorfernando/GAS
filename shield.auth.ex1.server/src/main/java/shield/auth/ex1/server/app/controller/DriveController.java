@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import shield.auth.ex1.server.app.models.FileDetails;
 import shield.auth.ex1.server.app.models.FileToUpload;
 import shield.auth.ex1.server.app.resources.ValidToken;
@@ -81,7 +80,7 @@ public class DriveController {
         String tokenGoogle = validToken.validToken(tokenLocal);
         File driveFile = File.createTempFile(file.getFileName(), "." + file.getFileSufix(), null);
         FileOutputStream fos = new FileOutputStream(driveFile);
-        
+
         try {
             fos.write(file.getFileInByteArray());
         } catch (Exception e) {
@@ -96,7 +95,7 @@ public class DriveController {
                     .build();
             UploadParameters parameters = new UploadParameters();  // call setters to modify upload parameters
             DriveFile fileDrive = google.driveOperations().upload(resource, metadata, parameters);
-            
+
             driveFile.delete();
         }
         return "Ok";
