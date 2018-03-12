@@ -78,7 +78,7 @@
                                 <input class="btn upload-buttom" type="file" name="file" id="upload-buttom" />
                                 <div class="input-group-btn">
                                     <button class="upload-buttom" style="font-size:20px" id="upload-buttom">UPLOAD FILE
-                                    <i class="fa fa-arrow-circle-up"></i></button>
+                                        <i class="fa fa-arrow-circle-up"></i></button>
                                 </div>
                             </div>
                         </form>    
@@ -179,6 +179,10 @@
         <script>
             $(document).ready(function () {
                 $('#tabela').DataTable({
+                    responsive: true,
+                    scrollY: 210,
+                    deferRender: true,
+                    scroller: true,
                     "pageLength": 5,
                     "bLengthChange": false,
                     "columnDefs": [{
