@@ -52,16 +52,22 @@ public class UserController {
             String imageUrl;
             String givenName;
             String familyName;
-            
+
             if ((imageUrl = google.plusOperations().getGoogleProfile().getImageUrl()) != null) {
                 imgUrl = imageUrl.split("[?]");
                 user.setImg(imgUrl[0]);
+            } else {
+                user.setImg("null");
             }
             if ((givenName = google.plusOperations().getGoogleProfile().getGivenName()) != null) {
                 user.setNome(givenName);
+            } else {
+                user.setNome("null");
             }
             if ((familyName = google.plusOperations().getGoogleProfile().getFamilyName()) != null) {
                 user.setSobrenome(familyName);
+            } else {
+                user.setSobrenome("null");
             }
 //            user.setEmail();
             if (google.plusOperations().getGoogleProfile().getGender().equals("male")) {
@@ -73,6 +79,8 @@ public class UserController {
             }
             if (google.plusOperations().getGoogleProfile().getBirthday() != null) {
                 user.setNiver(dt1.format(google.plusOperations().getGoogleProfile().getBirthday()));
+            } else {
+                user.setNiver("null");
             }
 
             return user;
