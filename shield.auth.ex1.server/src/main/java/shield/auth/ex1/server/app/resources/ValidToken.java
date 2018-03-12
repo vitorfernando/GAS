@@ -20,22 +20,38 @@ public class ValidToken {
 
     @Autowired
     TokenStore tokenStore;
-
-   //Extracts local token from request header and validates the token.
+    
+    String token = null;
+    String tokenType = null;
+    OAuth2Authentication auth = null;
+    
+    private String[] splitToken(String token) {
+        return token.split(" ");
+    }
+    //Extracts local token from request header and validates the token.
     //Returns the external token from the database.
-    public String validToken(String tokenLocal) {
-        String[] parts = tokenLocal.split(" ");
+
+    public boolean validToken(String tokenLocal) {
+        String[] parts = splitToken(tokenLocal);
+        this.tokenType = parts[0];
+        this.token = parts[1];
+        
         if (!tokenLocal.equals("empty")) {
             if (parts[0].equalsIgnoreCase("bearer")) {
-                OAuth2Authentication authen = tokenStore.readAuthentication(parts[1]);
-                if (authen != null) {
-                    return ((OAuth2AuthenticationDetails) authen.getUserAuthentication().getDetails()).getTokenValue();
-                } else {
-                    return null;
-                }
+                return (this.auth = tokenStore.readAuthentication(parts[1])) != null;
             }
         }
-
+        return false;
+    }
+    private OAuth2Authentication getAuthentication(){
+        return this.auth;
+    }
+    
+    public String getToken(String token) {
+        if(validToken(token)){
+            return ((OAuth2AuthenticationDetails) this.auth.getUserAuthentication()
+                    .getDetails()).getTokenValue();
+        }
         return null;
     }
 }

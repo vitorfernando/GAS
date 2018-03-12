@@ -43,7 +43,7 @@ public class UserController {
 
     @RequestMapping(value = "/usuario", method = RequestMethod.GET)
     public Object userDetails(@RequestHeader(value = "Authorization", defaultValue = "empty") String tokenLocal) {
-        String tokenGoogle = validToken.validToken(tokenLocal);
+        String tokenGoogle = validToken.getToken(tokenLocal);
         if (tokenGoogle != null) {
             GoogleTemplate google = new GoogleTemplate(tokenGoogle);
             UserDetails user = new UserDetails();

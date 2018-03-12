@@ -34,7 +34,7 @@ public class DriveController {
     //Obtains a list of Google Drive files based on an Auth Token.
     @RequestMapping(value = "/drive/list", method = RequestMethod.GET)
     public Object list(@RequestHeader(value = "Authorization", defaultValue = "empty") String tokenLocal) {
-        String tokenGoogle = validToken.validToken(tokenLocal);
+        String tokenGoogle = validToken.getToken(tokenLocal);
         if (tokenGoogle != null) {
             GoogleTemplate google = new GoogleTemplate(tokenGoogle);
             DriveFilesPage files = google.driveOperations().getFiles("root", null);
@@ -65,7 +65,7 @@ public class DriveController {
 
     @RequestMapping(value = "/drive/listFull", method = RequestMethod.GET)
     public Object listFull(@RequestHeader(value = "Authorization", defaultValue = "empty") String tokenLocal) {
-        String tokenGoogle = validToken.validToken(tokenLocal);
+        String tokenGoogle = validToken.getToken(tokenLocal);
         if (tokenGoogle != null) {
             GoogleTemplate google = new GoogleTemplate(tokenGoogle);
             DriveFilesPage files = google.driveOperations().getFiles("root", null);
@@ -77,7 +77,7 @@ public class DriveController {
 
     @PostMapping("drive/upload")
     public String handleFileUpload(@RequestHeader(value = "Authorization", defaultValue = "empty") String tokenLocal, @RequestBody FileToUpload file) throws IOException {
-        String tokenGoogle = validToken.validToken(tokenLocal);
+        String tokenGoogle = validToken.getToken(tokenLocal);
         File driveFile = File.createTempFile(file.getFileName(), "." + file.getFileSufix(), null);
         FileOutputStream fos = new FileOutputStream(driveFile);
 

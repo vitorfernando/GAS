@@ -6,6 +6,7 @@ shield/auth/ex1/server/app/conf/SecurityConf.class
 shield/auth/ex1/server/app/Application.class
 shield/auth/ex1/server/app/conf/ResourceServerConfiguration.class
 shield/auth/ex1/server/app/models/FileDetails.class
+shield/auth/ex1/server/app/models/UserDetails.class
 shield/auth/ex1/server/app/controller/UserController.class
 shield/auth/ex1/server/app/conf/DataSourceConf.class
 shield/auth/ex1/server/app/conf/AuthConfiguration.class
