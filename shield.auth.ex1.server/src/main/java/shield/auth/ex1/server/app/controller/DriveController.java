@@ -98,7 +98,7 @@ public class DriveController {
 
             driveFile.delete();
         }
-        return "Ok";
+        return "Erro: invalid or empty token";
     }
 
 }
