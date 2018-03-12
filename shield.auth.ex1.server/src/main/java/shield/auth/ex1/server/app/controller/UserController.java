@@ -49,10 +49,20 @@ public class UserController {
             UserDetails user = new UserDetails();
             SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/yyyy");
             String[] imgUrl = new String[2];
-            imgUrl = google.plusOperations().getGoogleProfile().getImageUrl().split("[?]");
-
-            user.setNome(google.plusOperations().getGoogleProfile().getGivenName());
-            user.setSobrenome(google.plusOperations().getGoogleProfile().getFamilyName());
+            String imageUrl;
+            String givenName;
+            String familyName;
+            
+            if ((imageUrl = google.plusOperations().getGoogleProfile().getImageUrl()) != null) {
+                imgUrl = imageUrl.split("[?]");
+                user.setImg(imgUrl[0]);
+            }
+            if ((givenName = google.plusOperations().getGoogleProfile().getGivenName()) != null) {
+                user.setNome(givenName);
+            }
+            if ((familyName = google.plusOperations().getGoogleProfile().getFamilyName()) != null) {
+                user.setSobrenome(familyName);
+            }
 //            user.setEmail();
             if (google.plusOperations().getGoogleProfile().getGender().equals("male")) {
                 user.setGenero("Masculino");
@@ -61,10 +71,10 @@ public class UserController {
             } else {
                 user.setGenero("Outro");
             }
+            if (google.plusOperations().getGoogleProfile().getBirthday() != null) {
+                user.setNiver(dt1.format(google.plusOperations().getGoogleProfile().getBirthday()));
+            }
 
-            user.setNiver(dt1.format(google.plusOperations().getGoogleProfile().getBirthday()));
-//            user.setImg(google.plusOperations().getGoogleProfile().getImageUrl());
-            user.setImg(imgUrl[0]);
             return user;
         }
         return new Exception("Erro ao extrair token.");
